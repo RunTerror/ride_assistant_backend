@@ -15,7 +15,7 @@ app.use(express.json());
 
 // Setup OpenAI-compatible Gemini API
 const openai = new OpenAI({
-    apiKey: "AIzaSyBkQHM69kQlYv0EfCbAkMzK8JURlxDk6-A",
+    apiKey: process.env.GEMINI_API_KEY,
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
