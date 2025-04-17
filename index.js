@@ -27,21 +27,26 @@ app.get("/parse-command", async (req, res) => {
     }
 
     const prompt = `
-You are a command parser. If the input is a WhatsApp message instruction like:
-"send hello how are you to abhisek on whatsapp", extract:
+You are a command parser for WhatsApp actions. Return only valid JSON with these formats:
 
-- event: "whatsapp"
-- name: the person's name
-- message: the message to send
+1. Message:
+Input: "send hello to abhishek on whatsapp"
+→ {"event": "whatsapp-message", "name": "abhishek", "message": "hello"}
 
-Respond ONLY as JSON (no markdown, no backticks). Example:
-{"event":"whatsapp", "name":"abhisek", "message":"hello how are you"}
+2. Audio call:
+Input: "call rohit on whatsapp"
+→ {"event": "whatsapp-audio", "name": "rohit", "message": ""}
 
-If it's not a WhatsApp command, respond:
-{"event":"unknown"}
+3. Video call:
+Input: "video call neha on whatsapp"
+→ {"event": "whatsapp-video", "name": "neha", "message": ""}
+
+If not WhatsApp-related, return:
+{"event": "unknown"}
 
 Input: "${command}"
 `;
+
 
     try {
         const response = await openai.chat.completions.create({
